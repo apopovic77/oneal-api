@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  api:
+    build: .
+    image: oneal-api:latest
+    environment:
+      - API_KEY=${API_KEY:-oneal_demo_token}
+    ports:
+      - "8000:8000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.onealapi.rule=Host(`api.oneal.eu`) && PathPrefix(`/v1`)"
+      - "traefik.http.routers.onealapi.entrypoints=websecure"
+      - "traefik.http.routers.onealapi.tls=true"
+      - "traefik.http.services.onealapi.loadbalancer.server.port=8000"
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true

@@ -1,0 +1,11 @@
+[entryPoints]
+  [entryPoints.web]
+    address = ":80"
+  [entryPoints.websecure]
+    address = ":443"
+
+[providers]
+  docker = true
+
+[api]
+  dashboard = true

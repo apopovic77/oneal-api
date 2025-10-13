@@ -1,0 +1,62 @@
+[
+  {
+    "id": "MX-2026-001",
+    "sku": "AIRFRAME-MX-001",
+    "name": "Airframe MX 2026",
+    "brand": "O’Neal",
+    "category": ["Helmets", "MX"],
+    "season": 2026,
+    "status": "active",
+    "certifications": ["ECE", "DOT"],
+    "materials": ["Carbon Composite"],
+    "colors": ["black", "white"],
+    "sizes": ["S", "M", "L", "XL"],
+    "price": {"currency": "EUR", "value": 399.0},
+    "media": [
+      {
+        "id": "img_8342",
+        "role": "hero",
+        "src": "https://cdn.oneal.com/img/mx2026_hero.jpg",
+        "alt": "O’Neal Airframe MX Helmet"
+      }
+    ],
+    "datasheets": [
+      {
+        "title": "Manual",
+        "url": "https://cdn.oneal.com/docs/mx2026_manual.pdf",
+        "type": "pdf"
+      }
+    ],
+    "meta": {
+      "source_path": "/Products/MX/Helmets/Airframe_MX_2026.xlsx",
+      "last_sync": "2025-10-13T10:12:00Z"
+    }
+  },
+  {
+    "id": "MX-2026-002",
+    "name": "Matrix Pro 2026",
+    "brand": "O’Neal",
+    "category": ["Helmets", "MX"],
+    "season": 2026,
+    "status": "active",
+    "certifications": ["ECE"],
+    "price": {"currency": "EUR", "value": 349.0},
+    "media": [
+      {
+        "id": "img_9001",
+        "role": "hero",
+        "src": "https://cdn.oneal.com/img/mx2026_hero2.jpg"
+      }
+    ]
+  },
+  {
+    "id": "MTB-2025-010",
+    "name": "Trail Guard 2025",
+    "brand": "O’Neal",
+    "category": ["Protectors", "MTB"],
+    "season": 2025,
+    "status": "active",
+    "certifications": ["CE"],
+    "price": {"currency": "EUR", "value": 129.99}
+  }
+]

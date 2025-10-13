@@ -1,0 +1,224 @@
+openapi: 3.1.0
+info:
+  title: O’Neal Product API
+  version: "1.0"
+servers:
+  - url: https://api.oneal.com/v1
+    description: Production
+  - url: http://localhost:8000/v1
+    description: Local
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+  schemas:
+    Price:
+      type: object
+      properties:
+        currency:
+          type: string
+          default: EUR
+        value:
+          type: number
+      required: [value]
+    MediaItem:
+      type: object
+      properties:
+        id: { type: string }
+        role:
+          type: string
+          description: hero | detail | lifestyle
+        src: { type: string, format: uri }
+        alt: { type: string, nullable: true }
+      required: [id, role, src]
+    Datasheet:
+      type: object
+      properties:
+        title: { type: string }
+        url: { type: string, format: uri }
+        type: { type: string, nullable: true, default: pdf }
+      required: [title, url]
+    Product:
+      type: object
+      properties:
+        id: { type: string }
+        sku: { type: string, nullable: true }
+        name: { type: string }
+        brand: { type: string, nullable: true, default: "O’Neal" }
+        category:
+          type: array
+          items: { type: string }
+        season: { type: integer, nullable: true }
+        status:
+          type: string
+          nullable: true
+          default: active
+          description: active | draft | archived
+        certifications:
+          type: array
+          nullable: true
+          items: { type: string }
+        materials:
+          type: array
+          nullable: true
+          items: { type: string }
+        colors:
+          type: array
+          nullable: true
+          items: { type: string }
+        sizes:
+          type: array
+          nullable: true
+          items: { type: string }
+        price:
+          $ref: '#/components/schemas/Price'
+        media:
+          type: array
+          nullable: true
+          items: { $ref: '#/components/schemas/MediaItem' }
+        datasheets:
+          type: array
+          nullable: true
+          items: { $ref: '#/components/schemas/Datasheet' }
+        meta:
+          type: object
+          additionalProperties: { type: string }
+      required: [id, name, category]
+    ProductListResponse:
+      type: object
+      properties:
+        count: { type: integer }
+        results:
+          type: array
+          items: { $ref: '#/components/schemas/Product' }
+    FigmaFeedItem:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string, nullable: true }
+        price: { type: string, nullable: true }
+        image: { type: string, format: uri, nullable: true }
+        category: { type: string, nullable: true }
+        season: { type: string, nullable: true }
+        cert: { type: string, nullable: true }
+paths:
+  /ping:
+    get:
+      security: [{ apiKeyAuth: [] }]
+      summary: Health check
+      responses:
+        '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status: { type: string }
+                    version: { type: string }
+                    time: { type: string, format: date-time }
+  /products:
+    get:
+      security: [{ apiKeyAuth: [] }]
+      summary: List products
+      parameters:
+        - in: query
+          name: search
+          schema: { type: string }
+        - in: query
+          name: category
+          schema: { type: string }
+        - in: query
+          name: season
+          schema: { type: integer }
+        - in: query
+          name: cert
+          schema: { type: string }
+        - in: query
+          name: price_min
+          schema: { type: number }
+        - in: query
+          name: price_max
+          schema: { type: number }
+        - in: query
+          name: sort
+          schema: { type: string, enum: [name, price, season] }
+        - in: query
+          name: order
+          schema: { type: string, enum: [asc, desc], default: asc }
+        - in: query
+          name: limit
+          schema: { type: integer, default: 50, minimum: 1, maximum: 200 }
+        - in: query
+          name: offset
+          schema: { type: integer, default: 0, minimum: 0 }
+        - in: query
+          name: format
+          schema: { type: string, enum: [figma-feed] }
+      responses:
+        '200':
+          description: Products list
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ProductListResponse'
+                  - type: object
+                    properties:
+                      count: { type: integer }
+                      results:
+                        type: array
+                        items: { $ref: '#/components/schemas/FigmaFeedItem' }
+  /products/{id}:
+    get:
+      security: [{ apiKeyAuth: [] }]
+      summary: Get product by id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail: { type: string }
+  /facets:
+    get:
+      security: [{ apiKeyAuth: [] }]
+      summary: Get facet values
+      responses:
+        '200':
+          description: Facets
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  category:
+                    type: array
+                    items: { type: string }
+                  season:
+                    type: array
+                    items: { type: integer }
+                  certification:
+                    type: array
+                    items: { type: string }
+                  priceRange:
+                    type: object
+                    properties:
+                      min: { type: number }
+                      max: { type: number }
+security: [{ apiKeyAuth: [] }]
