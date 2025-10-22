@@ -1,0 +1,16 @@
+{
+  "BACKUP_PREFIX": "storage-api",
+  "BUILD_COMMAND": "echo 'No build needed for FastAPI'",
+  "DEPLOY_PATH": "/var/www/api-storage.arkturian.com",
+  "DEV_BRANCH": "dev",
+  "INSTALL_DEPS_COMMAND": "pip install -r requirements.txt",
+  "MAIN_BRANCH": "main",
+  "NODE_VERSION": "18",
+  "PROJECT_NAME": "Storage API",
+  "PROJECT_SLUG": "storage-api",
+  "REPO_ROOT": "/Volumes/DatenAP/Code/storage-api",
+  "SITE_URL": "https://api-storage.arkturian.com",
+  "STARTER_PATH": "/Volumes/DatenAP/Code/github-starterpack",
+  "WEB_GROUP": "www-data",
+  "WEB_USER": "www-data"
+}

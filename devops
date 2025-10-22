@@ -1,0 +1,26 @@
+#!/bin/bash
+# DevOps CLI wrapper for oneal-api
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+case "$1" in
+  push)
+    shift
+    "$SCRIPT_DIR/.devops/scripts/push-dev.sh" "$@"
+    ;;
+  release)
+    "$SCRIPT_DIR/.devops/scripts/release.sh"
+    ;;
+  rollback)
+    "$SCRIPT_DIR/.devops/scripts/rollback.sh"
+    ;;
+  *)
+    echo "Usage: ./devops {push|release|rollback}"
+    echo ""
+    echo "Commands:"
+    echo "  push <message>    - Commit and push to dev branch"
+    echo "  release           - Merge dev to main and deploy"
+    echo "  rollback          - Restore previous deployment"
+    exit 1
+    ;;
+esac
