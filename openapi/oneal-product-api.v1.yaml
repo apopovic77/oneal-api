@@ -22,16 +22,29 @@ components:
           default: EUR
         value:
           type: number
-      required: [value]
+        formatted:
+          type: string
+          description: Formatted price string (e.g. "€399.00")
+          example: "€399.00"
+      required: [value, formatted]
     MediaItem:
       type: object
       properties:
         id: { type: string }
         role:
           type: string
-          description: hero | detail | lifestyle
+          enum: [hero, detail, lifestyle, action, studio]
+          description: Image role/purpose
         src: { type: string, format: uri }
         alt: { type: string, nullable: true }
+        caption:
+          type: string
+          nullable: true
+          description: Image caption for catalog
+        featured:
+          type: boolean
+          default: false
+          description: Featured/highlight image
       required: [id, role, src]
     Datasheet:
       type: object
@@ -40,13 +53,47 @@ components:
         url: { type: string, format: uri }
         type: { type: string, nullable: true, default: pdf }
       required: [title, url]
+    ProductDescription:
+      type: object
+      properties:
+        short:
+          type: string
+          nullable: true
+          description: Short description for product grids (1-2 sentences)
+          example: "Premium carbon helmet with advanced ventilation system."
+        long:
+          type: string
+          nullable: true
+          description: Full description for detail pages (multiple paragraphs)
+          example: "The Airframe MX is our flagship motocross helmet..."
+    ProductSpecifications:
+      type: object
+      properties:
+        weight:
+          type: number
+          nullable: true
+          description: Weight in grams
+          example: 1250
+        dimensions:
+          type: string
+          nullable: true
+          description: Dimensions (L×W×H)
+          example: "290×220×180mm"
+        shell_material:
+          type: string
+          nullable: true
+          example: "Carbon Composite"
+        liner_material:
+          type: string
+          nullable: true
+          example: "EPS Multi-Density"
     Product:
       type: object
       properties:
         id: { type: string }
         sku: { type: string, nullable: true }
         name: { type: string }
-        brand: { type: string, nullable: true, default: "O’Neal" }
+        brand: { type: string, nullable: true, default: "O'Neal" }
         category:
           type: array
           items: { type: string }
@@ -56,6 +103,30 @@ components:
           nullable: true
           default: active
           description: active | draft | archived
+        description:
+          $ref: '#/components/schemas/ProductDescription'
+          nullable: true
+        tier:
+          type: string
+          enum: [entry, mid, premium]
+          nullable: true
+          description: Product quality tier
+        series_id:
+          type: string
+          nullable: true
+          description: Series/family identifier for grouping related products
+          example: "airframe-mx"
+        series_name:
+          type: string
+          nullable: true
+          description: Display name for product series
+          example: "AIRFRAME MX"
+        key_features:
+          type: array
+          nullable: true
+          items: { type: string }
+          description: Highlighted features for catalog
+          example: ["Carbon fiber shell", "Advanced ventilation", "ECE certified"]
         certifications:
           type: array
           nullable: true
@@ -74,6 +145,10 @@ components:
           items: { type: string }
         price:
           $ref: '#/components/schemas/Price'
+          nullable: true
+        specifications:
+          $ref: '#/components/schemas/ProductSpecifications'
+          nullable: true
         media:
           type: array
           nullable: true
@@ -84,7 +159,9 @@ components:
           items: { $ref: '#/components/schemas/Datasheet' }
         meta:
           type: object
+          nullable: true
           additionalProperties: { type: string }
+          description: Additional unstructured metadata
       required: [id, name, category]
     ProductListResponse:
       type: object
