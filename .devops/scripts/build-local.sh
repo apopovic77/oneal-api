@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-REPO_ROOT="/Volumes/DatenAP/Code/storage-api"
+REPO_ROOT="/Volumes/DatenAP/Code/oneal-api"
 BUILD_COMMAND="echo 'No build needed for FastAPI'"
 
 usage() {

@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-REPO_ROOT="/Volumes/DatenAP/Code/storage-api"
+REPO_ROOT="/Volumes/DatenAP/Code/oneal-api"
 CONFIG_FILE="$REPO_ROOT/.devops/starter-config.json"
 DEFAULT_STARTER_PATH="/Volumes/DatenAP/Code/github-starterpack"
 

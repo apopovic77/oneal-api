@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-REPO_ROOT="/Volumes/DatenAP/Code/storage-api"
+REPO_ROOT="/Volumes/DatenAP/Code/oneal-api"
 DEV_BRANCH="dev"
 
 usage() {
