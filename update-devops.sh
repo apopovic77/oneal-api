@@ -1,0 +1,1 @@
+/Volumes/DatenAP/Code/oneal-api/.devops/scripts/update-devops.sh
