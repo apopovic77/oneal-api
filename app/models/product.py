@@ -16,6 +16,7 @@ class MediaItem(BaseModel):
     alt: Optional[str] = None
     caption: Optional[str] = Field(None, description="Image caption for catalog")
     featured: bool = Field(False, description="Featured/highlight image")
+    storage_id: Optional[int] = Field(None, description="Storage API object ID for optimized image delivery")
 
 
 class Datasheet(BaseModel):
