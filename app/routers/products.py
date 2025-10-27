@@ -107,9 +107,33 @@ async def to_resolved(products: List[Product]) -> List[ProductResolved]:
                         file_size_bytes=asset_data.get("file_size_bytes"),
                     )
                 else:
-                    # Fallback: Use src URL directly (for demo/test data)
-                    # This allows products.json to have direct picsum.photos URLs
+                    # Fallback: Use Storage API proxy for ALL images (with or without storage_id)
+                    # This enables transformation, caching, and optimization for all external URLs
                     src_url = str(m.src) if m.src else None
+                    storage_id = getattr(m, 'storage_id', None)
+                    
+                    if storage_id:
+                        # Option 1: Real storage object - use direct media endpoint
+                        base_url = f"https://api-storage.arkturian.com/storage/media/{storage_id}"
+                        thumb_url = f"{base_url}?width=400&format=webp&quality=80"
+                        preview_url = f"{base_url}?width=800&format=webp&quality=85"
+                        print_url = f"{base_url}?width=2000&format=jpg&quality=95"
+                    elif src_url:
+                        # Option 2: External URL - use Storage API proxy endpoint
+                        # This creates a virtual storage object that proxies the external URL
+                        # The Storage API will cache and transform the image on-the-fly
+                        import urllib.parse
+                        encoded_url = urllib.parse.quote(src_url, safe='')
+                        base_url = f"https://api-storage.arkturian.com/storage/proxy"
+                        thumb_url = f"{base_url}?url={encoded_url}&width=400&format=webp&quality=80"
+                        preview_url = f"{base_url}?url={encoded_url}&width=800&format=webp&quality=85"
+                        print_url = f"{base_url}?url={encoded_url}&width=2000&format=jpg&quality=95"
+                    else:
+                        # No image available
+                        thumb_url = None
+                        preview_url = None
+                        print_url = None
+                    
                     media_asset = MediaAsset(
                         link_id=m.id,
                         role=m.role,
@@ -119,9 +143,9 @@ async def to_resolved(products: List[Product]) -> List[ProductResolved]:
                         height=800,
                         aspectRatio=1.0,
                         variants=ImageVariants(
-                            thumb=src_url,      # Use same URL for all variants
-                            preview=src_url,    # In production, storage_client provides different sizes
-                            print=src_url,
+                            thumb=thumb_url,
+                            preview=preview_url,
+                            print=print_url,
                         ),
                         video=None,
                         original_filename=None,

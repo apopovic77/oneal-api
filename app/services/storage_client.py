@@ -11,7 +11,7 @@ from functools import lru_cache
 
 class StorageClient:
     def __init__(self, base_url: str = None, api_key: str = None):
-        self.base_url = base_url or os.getenv("STORAGE_API_URL", "https://api.arkturian.com")
+        self.base_url = base_url or os.getenv("STORAGE_API_URL", "https://api-storage.arkturian.com")
         self.api_key = api_key or os.getenv("STORAGE_API_KEY", "Inetpass1")
         self.timeout = httpx.Timeout(connect=5.0, read=10.0, write=5.0, pool=5.0)
 
