@@ -6,6 +6,8 @@ Product feed with resolved media variants and layout hints
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
 
+from .product import ProductAIAnalysis
+
 
 class ImageVariants(BaseModel):
     """Image variant URLs"""
@@ -85,6 +87,8 @@ class ProductResolved(BaseModel):
     datasheets: Optional[List[Datasheet]] = None
     layout: Optional[LayoutHints] = None
     meta: Optional[Dict[str, str]] = None
+    ai_tags: Optional[List[str]] = None
+    ai_analysis: Optional[ProductAIAnalysis] = None
 
 
 class ResolvedProductsResponse(BaseModel):

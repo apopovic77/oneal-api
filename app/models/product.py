@@ -42,6 +42,24 @@ class StorageReference(BaseModel):
     media_url: HttpUrl = Field(..., description="Storage API media endpoint URL")
 
 
+class ProductAIAnalysis(BaseModel):
+    colors: Optional[List[str]] = Field(None, description="Recognized colors from computer vision analysis")
+    materials: Optional[List[str]] = Field(None, description="Detected / inferred materials")
+    visual_harmony_tags: Optional[List[str]] = Field(None, description="Design/visual styling tags")
+    keywords: Optional[List[str]] = Field(None, description="Semantic keywords")
+    use_cases: Optional[List[str]] = Field(None, description="Targeted use cases / activities")
+    features: Optional[List[str]] = Field(None, description="AI extracted features")
+    target_audience: Optional[List[str]] = Field(None, description="Audience descriptors")
+    emotional_appeal: Optional[List[str]] = Field(None, description="Emotional cues from AI analysis")
+    style: Optional[str] = Field(None, description="Style description summarised by AI")
+    layout_notes: Optional[str] = Field(None, description="Layout pairing suggestions for merchandising")
+    dominant_colors: Optional[List[str]] = Field(None, description="Dominant colors in HEX format")
+    color_palette: Optional[str] = Field(None, description="Palette classification (e.g. 'vibrant')")
+    suggested_title: Optional[str] = Field(None, description="AI-generated marketing title")
+    suggested_subtitle: Optional[str] = Field(None, description="AI-generated marketing subtitle")
+    collections: Optional[List[str]] = Field(None, description="Suggested merchandising collections")
+
+
 class Product(BaseModel):
     id: str
     sku: Optional[str] = None
@@ -65,6 +83,8 @@ class Product(BaseModel):
     datasheets: Optional[List[Datasheet]] = None
     meta: Optional[Dict[str, str]] = Field(None, description="Additional unstructured metadata")
     storage: Optional[StorageReference] = Field(None, description="Storage API reference for optimized media delivery")
+    ai_tags: Optional[List[str]] = Field(None, description="AI generated semantic tags (flat keywords)")
+    ai_analysis: Optional[ProductAIAnalysis] = Field(None, description="Structured AI vision/semantic analysis extracted from Storage API")
 
 
 class ProductListResponse(BaseModel):

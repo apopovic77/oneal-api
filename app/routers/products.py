@@ -178,6 +178,8 @@ async def to_resolved(products: List[Product]) -> List[ProductResolved]:
             media=media_collection,
             layout=LayoutHints(),  # Use defaults
             meta=p.meta,
+            ai_tags=p.ai_tags,
+            ai_analysis=p.ai_analysis,
         )
         results.append(product_resolved)
 
