@@ -25,7 +25,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Configuration
 PRODUCTS_JSON = Path(__file__).parent.parent / "app" / "data" / "products.json"
-STORAGE_API_URL = "https://api-storage.arkturian.com/storage/v1/assets"
+STORAGE_API_URL = "https://api-storage.arkturian.com/storage/list"
 API_KEY = "oneal_demo_token"
 
 
@@ -45,7 +45,7 @@ def fetch_storage_objects() -> List[Dict]:
         params = {
             "limit": limit,
             "offset": offset,
-            "mine": "false"  # Get all O'Neal tenant objects
+            "mine": "false"  # Get all O'Neal tenant objects (not just owned by API key user)
         }
         
         try:
@@ -62,11 +62,11 @@ def fetch_storage_objects() -> List[Dict]:
                 break
             
             data = response.json()
-            items = data.get("items", [])
-            
+            items = data.get("items", [])  # Storage API uses "items", not "results"
+
             if not items:
                 break
-            
+
             all_objects.extend(items)
             print(f"  Fetched {len(all_objects)} objects so far...")
             
