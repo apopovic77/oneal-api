@@ -87,6 +87,19 @@ components:
           type: string
           nullable: true
           example: "EPS Multi-Density"
+    StorageReference:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Storage API object ID
+          example: 3580
+        media_url:
+          type: string
+          format: uri
+          description: Storage API media endpoint URL
+          example: "https://api-storage.arkturian.com/storage/media/3580"
+      required: [id, media_url]
     Product:
       type: object
       properties:
@@ -162,6 +175,10 @@ components:
           nullable: true
           additionalProperties: { type: string }
           description: Additional unstructured metadata
+        storage:
+          $ref: '#/components/schemas/StorageReference'
+          nullable: true
+          description: Storage API reference for optimized media delivery
       required: [id, name, category]
     ProductListResponse:
       type: object

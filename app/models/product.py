@@ -37,6 +37,11 @@ class ProductSpecifications(BaseModel):
     liner_material: Optional[str] = None
 
 
+class StorageReference(BaseModel):
+    id: int = Field(..., description="Storage API object ID")
+    media_url: HttpUrl = Field(..., description="Storage API media endpoint URL")
+
+
 class Product(BaseModel):
     id: str
     sku: Optional[str] = None
@@ -59,6 +64,7 @@ class Product(BaseModel):
     media: Optional[List[MediaItem]] = None
     datasheets: Optional[List[Datasheet]] = None
     meta: Optional[Dict[str, str]] = Field(None, description="Additional unstructured metadata")
+    storage: Optional[StorageReference] = Field(None, description="Storage API reference for optimized media delivery")
 
 
 class ProductListResponse(BaseModel):
