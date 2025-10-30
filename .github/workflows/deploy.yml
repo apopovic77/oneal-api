@@ -72,12 +72,15 @@ jobs:
               --exclude='*.pyc' \
               --exclude='.env' \
               --exclude='venv' \
+              --exclude='.venv' \
               "$REPO_PATH/" "$DEPLOY_PATH/"
 
             # Install dependencies in deployment directory (create local venv expected by systemd unit)
             cd "$DEPLOY_PATH"
-            if [ ! -d .venv ]; then
-              echo "Creating virtualenv in $DEPLOY_PATH/.venv"
+            # Ensure virtualenv exists and is healthy
+            if [ ! -x .venv/bin/activate ]; then
+              echo "(Re)creating virtualenv in $DEPLOY_PATH/.venv"
+              rm -rf .venv || true
               python3 -m venv .venv || python -m venv .venv
             fi
             . .venv/bin/activate
