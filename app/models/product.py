@@ -66,6 +66,7 @@ class Product(BaseModel):
     name: str
     brand: Optional[str] = "O'Neal"
     category: List[str]
+    category_ids: Optional[List[str]] = Field(None, description="Category IDs from taxonomy (cat:path/path)")
     season: Optional[int] = None
     status: Optional[str] = Field("active", description="active | draft | archived")
     description: Optional[ProductDescription] = None

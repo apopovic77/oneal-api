@@ -25,6 +25,7 @@ router = APIRouter()
 TEST_MODE = False  # Use products.json with new OpenAPI-compliant format
 
 DATA_FILE = Path(__file__).resolve().parents[2] / "app" / "data" / "products.json"
+CAT_FILE = Path(__file__).resolve().parents[2] / "app" / "data" / "kategorien.json"
 
 
 def _stable_float(seed: str, min_val: float, max_val: float) -> float:
@@ -98,13 +99,50 @@ def _normalize_product_dict(p: dict) -> dict:
     return product
 
 
+def _slug_from_url(url: str) -> str:
+    s = (url or "").strip("/")
+    parts = s.split("/")
+    return parts[-1] if parts else s
+
+
+def _load_category_taxonomy() -> Dict[str, Any]:
+    if not CAT_FILE.exists():
+        return {"taxonomy": []}
+    with CAT_FILE.open("r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def _resolve_category_ids_from_labels(labels: List[str], taxonomy: Dict[str, Any]) -> List[str]:
+    ids: List[str] = []
+    nodes = taxonomy.get("taxonomy", [])
+    path_slugs: List[str] = []
+    for label in labels:
+        match = next((n for n in nodes if (n.get("label") or "").strip().lower() == label.strip().lower()), None)
+        if not match:
+            break
+        slug = _slug_from_url(match.get("url") or match.get("label", "").lower().replace(" ", "-"))
+        if slug:
+            path_slugs.append(slug)
+            ids.append(f"cat:{'/'.join(path_slugs)}")
+        nodes = match.get("children", []) or []
+    return ids
+
+
 def load_products() -> List[Product]:
     if not DATA_FILE.exists():
         return []
     with DATA_FILE.open("r", encoding="utf-8") as f:
         raw = json.load(f)
     normalized = [_normalize_product_dict(p) for p in raw]
-    return [Product(**p) for p in normalized]
+    taxonomy = _load_category_taxonomy()
+    enriched: List[Product] = []
+    for p in normalized:
+        if isinstance(p.get("category"), list) and p.get("category") and not p.get("category_ids"):
+            ids = _resolve_category_ids_from_labels(p["category"], taxonomy)
+            if ids:
+                p["category_ids"] = ids
+        enriched.append(Product(**p))
+    return enriched
 
 
 async def to_resolved(products: List[Product]) -> List[ProductResolved]:

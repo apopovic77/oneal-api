@@ -1,0 +1,199 @@
+{
+    "taxonomy": [
+      {
+        "label": "Mountainbike",
+        "url": "/collections/mountainbike",
+        "children": [
+          {
+            "label": "Helme",
+            "url": "/collections/mtb-helme",
+            "children": [
+              { "label": "Full Face Helme", "url": "/collections/mountainbike-full-face-helme" },
+              { "label": "Open face Helme", "url": "/collections/mountainbike-open-face-helme" }
+            ]
+          },
+          {
+            "label": "Brillen",
+            "url": "/collections/mountainbike-brille",
+            "children": [
+              { "label": "B-10", "url": "/collections/b-10-brille" },
+              { "label": "B-22", "url": "/collections/b-22" },
+              { "label": "B-33", "url": "/collections/b-33" },
+              { "label": "B-55", "url": "/collections/b-55" },
+              { "label": "Vault", "url": "/collections/vault-brille" },
+              { "label": "Zubehör", "url": "/pages/goggle-lens-change" },
+              { "label": "Goggle-Guide", "url": "/pages/goggle-guide" }
+            ]
+          },
+          {
+            "label": "Kleidung",
+            "url": "/collections/mountainbike-kleidung",
+            "children": [
+              { "label": "Jerseys", "url": "/collections/mountainbike-jerseys" },
+              { "label": "Shorts", "url": "/collections/mountainbike-shorts" },
+              { "label": "Hosen", "url": "/collections/mountainbike-hosen" },
+              { "label": "Jacken", "url": "/collections/mountainbike-jacken" },
+              { "label": "Regenkleidung", "url": "/collections/mountainbike-regenkleidung" },
+              { "label": "Handschuhe", "url": "/collections/mountainbike-handschuhe" }
+            ]
+          },
+          {
+            "label": "Protektoren",
+            "url": "/collections/mountainbike-protektoren",
+            "children": [
+              { "label": "Oberkörper", "url": "/collections/oberkorper-protektoren" },
+              { "label": "Knie", "url": "/collections/knie-protektoren-1" },
+              { "label": "Ellenbogen", "url": "/collections/ellenbogen-protektoren" },
+              { "label": "Nackenschutz", "url": "/collections/nacken-protektoren" },
+              { "label": "Weitere", "url": "/collections/weitere" }
+            ]
+          },
+          {
+            "label": "Schuhe",
+            "url": "/collections/mountainbike-schuhe",
+            "children": [
+              { "label": "Flat Pedal", "url": "/collections/flat-pedal-schuhe" },
+              { "label": "Clip In", "url": "/collections/spd-schuhe" }
+            ]
+          },
+          { "label": "Accessories", "url": "/collections/mountainbike-accessories" },
+          { "label": "O'NEAL Exklusiv", "url": "/collections/oneal-exklusiv-mtb" }
+        ]
+      },
+      {
+        "label": "Motocross",
+        "url": "/collections/motocross",
+        "children": [
+          {
+            "label": "Helme",
+            "url": "/collections/motocross-helme",
+            "children": [
+              { "label": "Sport", "url": "/collections/mx-sport-helme" },
+              { "label": "Race", "url": "/collections/mx-race-helme" },
+              { "label": "Enduro", "url": "/collections/enduro-helme-1" }
+            ]
+          },
+          {
+            "label": "Brillen",
+            "url": "/collections/motocross-brillen",
+            "children": [
+              { "label": "B-10", "url": "/collections/b-10-brillen" },
+              { "label": "B-22", "url": "/collections/b-22" },
+              { "label": "B-33", "url": "/collections/b-33" },
+              { "label": "B-55", "url": "/collections/b-55" },
+              { "label": "Vault", "url": "/collections/vault-brillen" },
+              { "label": "Zubehör", "url": "/pages/goggle-lens-change" },
+              { "label": "Goggle-Guide", "url": "/pages/goggle-guide" }
+            ]
+          },
+          {
+            "label": "Kleidung",
+            "url": "/collections/motocross-kleidung",
+            "children": [
+              { "label": "Jerseys", "url": "/collections/motocross-jerseys" },
+              { "label": "Hosen", "url": "/collections/motocross-hosen" },
+              { "label": "Jacken", "url": "/collections/motocross-jacken" },
+              { "label": "Regenkleidung", "url": "/collections/motocross-regenkleidung" },
+              { "label": "Handschuhe", "url": "/collections/motocross-handschuhe" }
+            ]
+          },
+          {
+            "label": "Protektoren",
+            "url": "/collections/motocross-protektoren",
+            "children": [
+              { "label": "Oberkörper", "url": "/collections/oberkorper-protektoren" },
+              { "label": "Knie", "url": "/collections/knie-protektoren" },
+              { "label": "Ellenbogen", "url": "/collections/ellenbogen-protektoren" },
+              { "label": "Nackenschutz", "url": "/collections/nacken-protektoren" },
+              { "label": "Weitere", "url": "/collections/weitere" }
+            ]
+          },
+          { "label": "Stiefel", "url": "/collections/motocross-stiefel" },
+          {
+            "label": "Accessories",
+            "url": "/collections/motocross-accessories",
+            "children": [
+              { "label": "Taschen", "url": "/collections/motocross-taschen" },
+              { "label": "Neckwarmer", "url": "/collections/neckwarmer" },
+              { "label": "Socken", "url": "/collections/motocross-socken" },
+              { "label": "Griffe", "url": "/collections/motocross-griffe" },
+              { "label": "Transport", "url": "/collections/zubehor-fur-transport" }
+            ]
+          },
+          { "label": "O'NEAL Exklusiv", "url": "/collections/oneal-exklusiv-motocross" },
+          { "label": "Ersatzteile", "url": "/collections/ersatzteile-motocross" }
+        ]
+      },
+      {
+        "label": "Motorrad",
+        "url": "/collections/motorrad",
+        "children": [
+          {
+            "label": "Helme",
+            "url": "/collections/motorrad-helme",
+            "children": [
+              { "label": "Adventure", "url": "/collections/adventure-helme" },
+              { "label": "Street", "url": "/collections/street-helme" }
+            ]
+          },
+          { "label": "Kleidung", "url": "/collections/motorrad-kleidung" },
+          { "label": "Stiefel", "url": "/collections/motorrad-stiefel" },
+          {
+            "label": "Protektoren",
+            "url": "/collections/motorrad-protektoren",
+            "children": [
+              { "label": "Oberkörper", "url": "/collections/oberkorper-protektoren-2" },
+              { "label": "Nackenschutz", "url": "/collections/nackenprotektoren-1" }
+            ]
+          },
+          { "label": "Accessories", "url": "/collections/motorrad-accessories" },
+          { "label": "Ersatzteile", "url": "/collections/motorrad-ersatzteile" }
+        ]
+      },
+      {
+        "label": "Frauen",
+        "url": "/collections/frauen",
+        "children": [
+          { "label": "Frauen Motocross", "url": "/collections/frauen-motocross" },
+          { "label": "Frauen Mountainbike", "url": "/collections/frauen-mountainbike" }
+        ]
+      },
+      {
+        "label": "Kinder",
+        "url": "/collections/kinder",
+        "children": [
+          {
+            "label": "Kinder Mountainbike",
+            "url": "/collections/kinder-mountainbike",
+            "children": [
+              { "label": "Helme", "url": "/collections/kinder-mountainbike-helme" },
+              { "label": "Brillen", "url": "/collections/kinder-mountainbike-brillen" },
+              { "label": "Protektoren", "url": "/collections/kinder-mountainbike-protektoren" },
+              { "label": "Jerseys", "url": "/collections/kinder-mountainbike-jerseys" },
+              { "label": "Hosen", "url": "/collections/kinder-mountainbike-hosen" },
+              { "label": "Shorts", "url": "/collections/kinder-mountainbike-shorts" },
+              { "label": "Handschuhe", "url": "/collections/kinder-mountainbike-handschuhe" },
+              { "label": "Ersatzteile", "url": "/collections/kinder-mountainbike-ersatzteile" }
+            ]
+          },
+          {
+            "label": "Kinder Motocross",
+            "url": "/collections/kinder-motocross",
+            "children": [
+              { "label": "Helme", "url": "/collections/kinder-motocross-helme" },
+              { "label": "Brillen", "url": "/collections/kinder-motocross-brillen" },
+              { "label": "Jerseys", "url": "/collections/kinder-motocross-kleidung" },
+              { "label": "Hosen", "url": "/collections/kinder-motocross-hosen" },
+              { "label": "Protektoren", "url": "/collections/motocross-kinder-protektoren" },
+              { "label": "Handschuhe", "url": "/collections/kinder-motocross-handschuhe" },
+              { "label": "Stiefel", "url": "/collections/kinder-motocross-stiefel" },
+              { "label": "Socken", "url": "/collections/kinder-motocross-socken" },
+              { "label": "Ersatzteile", "url": "/collections/kinder-motocross-ersatzteile" }
+            ]
+          }
+        ]
+      },
+      { "label": "Merchandise", "url": "/collections/promotion-material" },
+      { "label": "#ONEOFUS", "url": "/pages/oneofus" }
+    ]
+  }
