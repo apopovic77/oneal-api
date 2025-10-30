@@ -46,6 +46,23 @@ CATEGORY_LABEL_MAP = {
 
 ROOT_LABELS = set(ROOT_LABEL_BY_SOURCE.values())
 
+CATEGORY_PATH_OVERRIDES = {
+    ("Mountainbike", "Helme"): ["Mountainbike", "Helme"],
+    ("Mountainbike", "Kleidung"): ["Mountainbike", "Kleidung"],
+    ("Mountainbike", "Handschuhe"): ["Mountainbike", "Kleidung", "Handschuhe"],
+    ("Mountainbike", "Protektoren"): ["Mountainbike", "Protektoren"],
+    ("Mountainbike", "Schuhe"): ["Mountainbike", "Schuhe"],
+    ("Mountainbike", "Accessories"): ["Mountainbike", "Accessories"],
+    ("Mountainbike", "Weitere"): ["Mountainbike", "Protektoren", "Weitere"],
+    ("Motocross", "Helme"): ["Motocross", "Helme"],
+    ("Motocross", "Kleidung"): ["Motocross", "Kleidung"],
+    ("Motocross", "Handschuhe"): ["Motocross", "Kleidung", "Handschuhe"],
+    ("Motocross", "Protektoren"): ["Motocross", "Protektoren"],
+    ("Motocross", "Schuhe"): ["Motocross", "Stiefel"],
+    ("Motocross", "Accessories"): ["Motocross", "Accessories"],
+    ("Motocross", "Weitere"): ["Motocross", "Protektoren", "Weitere"],
+}
+
 
 def _stable_float(seed: str, min_val: float, max_val: float) -> float:
     """Deterministic pseudo-random float in [min_val, max_val] from a string seed."""
@@ -134,24 +151,31 @@ def _load_category_taxonomy() -> Dict[str, Any]:
 def _normalize_category_labels(labels: List[str], source: Optional[str]) -> List[str]:
     normalized: List[str] = []
     root_label: Optional[str] = None
+    source_key = (source or "").strip().lower()
+
     for label in labels or []:
         canonical = CATEGORY_LABEL_MAP.get(label.strip().lower(), label.strip())
         if canonical in ROOT_LABELS:
             root_label = canonical
         normalized.append(canonical)
 
-    if root_label is None and source:
-        root_label = ROOT_LABEL_BY_SOURCE.get(source.strip().lower())
+    if root_label is None and source_key:
+        root_label = ROOT_LABEL_BY_SOURCE.get(source_key)
 
-    path: List[str] = []
-    if root_label:
-        path.append(root_label)
+    if not root_label:
+        return normalized
 
-    for label in normalized:
-        if label and label != root_label:
-            path.append(label)
+    sub_labels = [label for label in normalized if label and label != root_label]
 
-    return path
+    for sub_label in sub_labels:
+        override = CATEGORY_PATH_OVERRIDES.get((root_label, sub_label))
+        if override:
+            return override
+
+    if sub_labels:
+        return [root_label, *sub_labels]
+
+    return [root_label]
 
 
 def _resolve_category_ids_from_labels(labels: List[str], taxonomy: Dict[str, Any]) -> List[str]:
