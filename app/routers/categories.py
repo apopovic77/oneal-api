@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from pathlib import Path
 import json
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from ..models.category import Category, CategoryListResponse
 
 
@@ -18,7 +18,7 @@ def _slug_from_url(url: str) -> str:
     return parts[-1] if parts else s
 
 
-def _assign_ids(node: Dict[str, Any], parent_id: str | None, path_slugs: List[str], out: List[Category]):
+def _assign_ids(node: Dict[str, Any], parent_id: Optional[str], path_slugs: List[str], out: List[Category]):
     slug = _slug_from_url(node.get("url") or node.get("label", "").lower().replace(" ", "-"))
     current_path = path_slugs + ([slug] if slug else [])
     cat_id = f"cat:{'/'.join([p for p in current_path if p])}"
