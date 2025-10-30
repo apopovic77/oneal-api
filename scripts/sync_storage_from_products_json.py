@@ -19,7 +19,7 @@ import requests
 from pathlib import Path
 
 STORAGE_API = "https://api-storage.arkturian.com"
-STORAGE_API_KEY = "Inetpass1"
+STORAGE_API_KEY = "oneal_demo_token"  # O'Neal tenant API key
 ONEAL_TENANT_KEY = "oneal_demo_token"
 PRODUCTS_JSON = Path(__file__).parent.parent / "app/data/products.json"
 
@@ -34,26 +34,26 @@ def delete_all_oneal_storage():
     input("   Press Enter after running SQL delete...")
 
 def import_to_storage(product_id, media_id, media_url, role="hero"):
-    """Import a single media item to storage."""
+    """Import a single media item to storage as external reference."""
 
-    # Download image
-    print(f"      Downloading {media_url}...")
-    response = requests.get(media_url, timeout=30)
-    response.raise_for_status()
+    print(f"      Registering external URL: {media_url}...")
 
-    # Use media_id as unique filename to prevent overwriting
-    filename = f"{media_id}.png"
+    # Create minimal 1x1 PNG to satisfy file upload requirement
+    import base64
+    minimal_png = base64.b64decode(b'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==')
 
-    # Upload to storage
+    # Upload as external reference
     files = {
-        'file': (filename, response.content, 'image/png')
+        'file': (f"{media_id}.png", minimal_png, 'image/png')
     }
     data = {
         'tenant_id': 'oneal',
         'context': 'oneal_product',
         'collection_id': 'oneal_catalog',
         'link_id': product_id,
-        'title': media_id
+        'title': media_id,
+        'storage_mode': 'external',
+        'external_uri': media_url
     }
 
     upload_response = requests.post(
@@ -66,7 +66,7 @@ def import_to_storage(product_id, media_id, media_url, role="hero"):
 
     result = upload_response.json()
     storage_id = result.get('id')
-    print(f"      ✅ Uploaded -> storage_id: {storage_id}")
+    print(f"      ✅ Registered -> storage_id: {storage_id}")
     return storage_id
 
 def main():
