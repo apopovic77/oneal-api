@@ -27,6 +27,25 @@ TEST_MODE = False  # Use products.json with new OpenAPI-compliant format
 DATA_FILE = Path(__file__).resolve().parents[2] / "app" / "data" / "products.json"
 CAT_FILE = Path(__file__).resolve().parents[2] / "app" / "data" / "kategorien.json"
 
+ROOT_LABEL_BY_SOURCE = {
+    "mtb": "Mountainbike",
+    "mx": "Motocross",
+}
+
+CATEGORY_LABEL_MAP = {
+    "mtb": "Mountainbike",
+    "mx": "Motocross",
+    "helmets": "Helme",
+    "clothing": "Kleidung",
+    "gloves": "Handschuhe",
+    "protectors": "Protektoren",
+    "shoes": "Schuhe",
+    "accessories": "Accessories",
+    "other": "Weitere",
+}
+
+ROOT_LABELS = set(ROOT_LABEL_BY_SOURCE.values())
+
 
 def _stable_float(seed: str, min_val: float, max_val: float) -> float:
     """Deterministic pseudo-random float in [min_val, max_val] from a string seed."""
@@ -112,6 +131,29 @@ def _load_category_taxonomy() -> Dict[str, Any]:
         return json.load(f)
 
 
+def _normalize_category_labels(labels: List[str], source: Optional[str]) -> List[str]:
+    normalized: List[str] = []
+    root_label: Optional[str] = None
+    for label in labels or []:
+        canonical = CATEGORY_LABEL_MAP.get(label.strip().lower(), label.strip())
+        if canonical in ROOT_LABELS:
+            root_label = canonical
+        normalized.append(canonical)
+
+    if root_label is None and source:
+        root_label = ROOT_LABEL_BY_SOURCE.get(source.strip().lower())
+
+    path: List[str] = []
+    if root_label:
+        path.append(root_label)
+
+    for label in normalized:
+        if label and label != root_label:
+            path.append(label)
+
+    return path
+
+
 def _resolve_category_ids_from_labels(labels: List[str], taxonomy: Dict[str, Any]) -> List[str]:
     ids: List[str] = []
     nodes = taxonomy.get("taxonomy", [])
@@ -138,8 +180,11 @@ def load_products() -> List[Product]:
     enriched: List[Product] = []
     for p in normalized:
         if isinstance(p.get("category"), list) and p.get("category") and not p.get("category_ids"):
-            ids = _resolve_category_ids_from_labels(p["category"], taxonomy)
+            meta = p.get("meta") or {}
+            labels = _normalize_category_labels(p["category"], meta.get("source"))
+            ids = _resolve_category_ids_from_labels(labels, taxonomy) if labels else []
             if ids:
+                p["category"] = labels
                 p["category_ids"] = ids
         enriched.append(Product(**p))
     return enriched
