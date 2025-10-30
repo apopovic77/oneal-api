@@ -113,7 +113,7 @@ jobs:
 
     steps:
       - name: Trigger TypeScript SDK regeneration
-        if: secrets.REPO_DISPATCH_TOKEN != ''
+        if: ${{ secrets.REPO_DISPATCH_TOKEN }}
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.REPO_DISPATCH_TOKEN }}
@@ -121,7 +121,7 @@ jobs:
           event-type: openapi-updated
 
       - name: Trigger C# SDK regeneration
-        if: secrets.REPO_DISPATCH_TOKEN != ''
+        if: ${{ secrets.REPO_DISPATCH_TOKEN }}
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.REPO_DISPATCH_TOKEN }}
@@ -135,7 +135,7 @@ jobs:
 
     steps:
       - name: Trigger E2E tests
-        if: secrets.REPO_DISPATCH_TOKEN != ''
+        if: ${{ secrets.REPO_DISPATCH_TOKEN }}
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.REPO_DISPATCH_TOKEN }}
