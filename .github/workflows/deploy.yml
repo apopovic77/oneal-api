@@ -113,16 +113,18 @@ jobs:
 
     steps:
       - name: Trigger TypeScript SDK regeneration
+        if: ${{ secrets.REPO_DISPATCH_TOKEN != '' }}
         uses: peter-evans/repository-dispatch@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.REPO_DISPATCH_TOKEN }}
           repository: apopovic77/oneal-api-typescript-sdk
           event-type: openapi-updated
 
       - name: Trigger C# SDK regeneration
+        if: ${{ secrets.REPO_DISPATCH_TOKEN != '' }}
         uses: peter-evans/repository-dispatch@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.REPO_DISPATCH_TOKEN }}
           repository: apopovic77/oneal-api-csharp-sdk
           event-type: openapi-updated
 
@@ -133,9 +135,10 @@ jobs:
 
     steps:
       - name: Trigger E2E tests
+        if: ${{ secrets.REPO_DISPATCH_TOKEN != '' }}
         uses: peter-evans/repository-dispatch@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.REPO_DISPATCH_TOKEN }}
           repository: apopovic77/api-e2e-tests
           event-type: oneal-api-deployed
           client-payload: '{"api": "oneal", "sha": "${{ github.sha }}"}'
