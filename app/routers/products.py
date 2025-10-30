@@ -16,6 +16,7 @@ from ..models.resolved import (
 from ..services.storage_client import storage_client
 from ..data.test_products import TEST_PRODUCTS
 from pathlib import Path
+import hashlib
 import json
 
 router = APIRouter()
@@ -26,12 +27,84 @@ TEST_MODE = False  # Use products.json with new OpenAPI-compliant format
 DATA_FILE = Path(__file__).resolve().parents[2] / "app" / "data" / "products.json"
 
 
+def _stable_float(seed: str, min_val: float, max_val: float) -> float:
+    """Deterministic pseudo-random float in [min_val, max_val] from a string seed."""
+    h = hashlib.md5(seed.encode("utf-8")).hexdigest()
+    # Use 8 hex chars -> 32-bit int
+    n = int(h[:8], 16)
+    r = n / 0xFFFFFFFF
+    return min_val + (max_val - min_val) * r
+
+
+def _normalize_product_dict(p: dict) -> dict:
+    """Ensure price and weight exist for test data. Does not mutate input dict."""
+    product = dict(p)
+    cat_list = product.get("category") or []
+    cat0 = (cat_list[0] if isinstance(cat_list, list) and cat_list else "Other").lower()
+
+    # Category-based ranges (rough, for demo data)
+    price_ranges = {
+        "helmets": (79.0, 449.0),
+        "gloves": (9.0, 59.0),
+        "clothing": (19.0, 299.0),
+        "protectors": (19.0, 199.0),
+        "shoes": (49.0, 299.0),
+        "boots": (49.0, 299.0),
+        "accessories": (5.0, 99.0),
+        "other": (10.0, 199.0),
+    }
+    weight_ranges_g = {
+        "helmets": (900.0, 1800.0),
+        "gloves": (80.0, 300.0),
+        "clothing": (200.0, 1500.0),
+        "protectors": (200.0, 1500.0),
+        "shoes": (800.0, 2500.0),
+        "boots": (800.0, 2500.0),
+        "accessories": (20.0, 800.0),
+        "other": (100.0, 2000.0),
+    }
+
+    # pick range by prefix matching
+    def _pick_range(mapping: dict) -> tuple[float, float]:
+        for key, rng in mapping.items():
+            if key in cat0:
+                return rng
+        return mapping["other"]
+
+    # Price normalization
+    price = product.get("price") or {}
+    price_value = price.get("value")
+    price_currency = price.get("currency") or "EUR"
+    if price_value is None:
+        lo, hi = _pick_range(price_ranges)
+        # Deterministic: id + category
+        seed = f"{product.get('id','')}-{cat0}-price"
+        value = round(_stable_float(seed, lo, hi), 2)
+        price_value = value
+    # formatted string
+    symbol = "€" if price_currency.upper() == "EUR" else price_currency
+    formatted = f"{symbol}{price_value:.2f}"
+    product["price"] = {"currency": price_currency, "value": float(price_value), "formatted": formatted}
+
+    # Weight normalization (grams) in specifications
+    specs = dict(product.get("specifications") or {})
+    weight = specs.get("weight")
+    if weight is None:
+        lo, hi = _pick_range(weight_ranges_g)
+        seed = f"{product.get('id','')}-{cat0}-weight"
+        specs["weight"] = round(_stable_float(seed, lo, hi), 1)
+    product["specifications"] = specs
+
+    return product
+
+
 def load_products() -> List[Product]:
     if not DATA_FILE.exists():
         return []
     with DATA_FILE.open("r", encoding="utf-8") as f:
         raw = json.load(f)
-    return [Product(**p) for p in raw]
+    normalized = [_normalize_product_dict(p) for p in raw]
+    return [Product(**p) for p in normalized]
 
 
 async def to_resolved(products: List[Product]) -> List[ProductResolved]:

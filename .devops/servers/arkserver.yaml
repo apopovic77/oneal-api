@@ -1,0 +1,33 @@
+server:
+  name: "arkserver"
+  type: "python-api"
+  host: "arkserver"
+  user: "root"
+  deploy_path: "/var/www/oneal-api"
+
+service:
+  type: "systemd"
+  name: "oneal-api"
+  port: 8002
+
+nginx:
+  enabled: true
+  server_name: "oneal-api.arkserver.arkturian.com"
+  port: 80
+
+environment:
+  STORAGE_API_URL: "http://localhost:8001"
+  STORAGE_API_KEY: "Inetpass1"
+  API_KEY: "oneal_demo_token"
+  HOST: "0.0.0.0"
+  PORT: "8002"
+
+python:
+  version: "3.11"
+  requirements: "requirements.txt"
+  venv_path: "venv"
+
+backup:
+  enabled: true
+  dir: "/var/backups"
+  prefix: "oneal-api"
