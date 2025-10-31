@@ -73,6 +73,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--dry-run', action='store_true')
     parser.add_argument('--skip-delete', action='store_true', help='Skip deletion step')
+    parser.add_argument('--force', action='store_true', help='Force re-import even if storage_id exists')
     args = parser.parse_args()
 
     print("=" * 80)
@@ -108,6 +109,11 @@ def main():
 
             if not media_src:
                 print(f"   ⏭️  No src for {media_id}")
+                continue
+
+            # Skip if storage_id already exists (don't create duplicates)
+            if media.get('storage_id') and not args.force:
+                print(f"   ✓ Already has storage_id: {media.get('storage_id')}")
                 continue
 
             if args.dry_run:

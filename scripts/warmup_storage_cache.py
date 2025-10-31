@@ -15,6 +15,7 @@ from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 STORAGE_API = "https://api-storage.arkturian.com"
+STORAGE_API_KEY = "oneal_demo_token"  # O'Neal tenant API key
 PRODUCTS_JSON = Path(__file__).parent.parent / "app/data/products.json"
 
 # Two image resolutions for Product Finder
@@ -26,8 +27,9 @@ RESOLUTIONS = [
 def warmup_image(storage_id: int, resolution: dict):
     """Download a single image to warmup cache."""
     url = f"{STORAGE_API}/storage/media/{storage_id}{resolution['params']}"
+    headers = {'X-API-KEY': STORAGE_API_KEY}
     try:
-        response = requests.get(url, timeout=30)
+        response = requests.get(url, headers=headers, timeout=60)  # Increased timeout for large images
         response.raise_for_status()
         size_kb = len(response.content) / 1024
         return True, storage_id, resolution['name'], size_kb
@@ -64,12 +66,12 @@ def main():
     print(f"\n🔥 Warming up cache: {total_tasks} images ({len(storage_ids)} × {len(RESOLUTIONS)} resolutions)")
     print(f"   Resolutions: {', '.join([r['name'] for r in RESOLUTIONS])}")
 
-    # Download in parallel (10 concurrent requests)
+    # Download in parallel (2 concurrent requests to avoid overwhelming the server)
     success_count = 0
     error_count = 0
     total_size_mb = 0
 
-    with ThreadPoolExecutor(max_workers=10) as executor:
+    with ThreadPoolExecutor(max_workers=2) as executor:
         futures = [executor.submit(warmup_image, sid, res) for sid, res in tasks]
 
         for i, future in enumerate(as_completed(futures), 1):
