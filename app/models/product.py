@@ -37,6 +37,27 @@ class ProductSpecifications(BaseModel):
     liner_material: Optional[str] = None
 
 
+class ProductVariant(BaseModel):
+    name: Optional[str] = None
+    sku: Optional[str] = None
+    gtin13: Optional[str] = Field(None, description="GTIN/EAN code")
+    price: Optional[float] = None
+    currency: Optional[str] = None
+    availability: Optional[str] = None
+    url: Optional[HttpUrl] = None
+
+
+class ProductTechnicalData(BaseModel):
+    headers: List[str] = Field(default_factory=list)
+    rows: List[List[str]] = Field(default_factory=list)
+
+
+class ProductDerivedTaxonomy(BaseModel):
+    sport: Optional[str] = None
+    product_family: Optional[str] = None
+    path: List[str] = Field(default_factory=list)
+
+
 class StorageReference(BaseModel):
     id: int = Field(..., description="Storage API object ID")
     media_url: HttpUrl = Field(..., description="Storage API media endpoint URL")
@@ -86,6 +107,10 @@ class Product(BaseModel):
     storage: Optional[StorageReference] = Field(None, description="Storage API reference for optimized media delivery")
     ai_tags: Optional[List[str]] = Field(None, description="AI generated semantic tags (flat keywords)")
     ai_analysis: Optional[ProductAIAnalysis] = Field(None, description="Structured AI vision/semantic analysis extracted from Storage API")
+    source_url: Optional[str] = Field(None, description="Canonical source URL on official site")
+    variants: Optional[List[ProductVariant]] = None
+    technical_data: Optional[List[ProductTechnicalData]] = None
+    derived_taxonomy: Optional[ProductDerivedTaxonomy] = None
 
 
 class ProductListResponse(BaseModel):
