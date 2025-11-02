@@ -1,8 +1,12 @@
 from typing import List, Optional, Dict, Any
+from urllib.parse import urljoin
+
 from fastapi import APIRouter, Depends, Query, HTTPException
 from fastapi.responses import JSONResponse
+
 from ..core.auth import api_key_auth
 from ..models.product import Product, ProductListResponse
+from ..models.product_source import ProductSourceResponse
 from ..models.resolved import (
     ResolvedProductsResponse,
     ProductResolved,
@@ -14,6 +18,7 @@ from ..models.resolved import (
     LayoutHints,
 )
 from ..services.storage_client import storage_client
+from ..services.product_source import fetch_product_source
 from ..data.test_products import TEST_PRODUCTS
 from pathlib import Path
 import hashlib
@@ -383,6 +388,42 @@ async def to_resolved(products: List[Product]) -> List[ProductResolved]:
         results.append(product_resolved)
 
     return results
+
+
+@router.get("/products/source-info", response_model=ProductSourceResponse)
+async def get_product_source_info(
+    product_id: Optional[str] = Query(None, description="Internal product ID"),
+    product_url: Optional[str] = Query(None, description="Direct product URL on oneal.eu"),
+    _: None = Depends(api_key_auth),
+):
+    if not product_id and not product_url:
+        raise HTTPException(status_code=400, detail="Provide either product_id or product_url")
+
+    resolved_url = product_url
+    resolved_id = product_id
+
+    if not resolved_url:
+        products = load_products()
+        product = next((p for p in products if p.id == product_id), None)
+        if not product:
+            raise HTTPException(status_code=404, detail="Product not found")
+        meta_url = (product.meta or {}).get("product_url") if product.meta else None
+        if not meta_url:
+            raise HTTPException(status_code=404, detail="Product URL not available in metadata")
+        resolved_url = meta_url
+        resolved_id = product.id
+
+    if resolved_url.startswith("/"):
+        resolved_url = urljoin("https://www.oneal.eu", resolved_url)
+
+    try:
+        source_data = fetch_product_source(resolved_url, resolved_id)
+    except HTTPException:
+        raise
+    except Exception as exc:  # pragma: no cover - network errors mapped to HTTP
+        raise HTTPException(status_code=502, detail=f"Failed to fetch product source: {exc}") from exc
+
+    return source_data
 
 
 @router.get("/products", response_model=ProductListResponse)
