@@ -208,13 +208,27 @@ def load_products() -> List[Product]:
             labels = _normalize_category_labels(p["category"], meta.get("source"))
             ids = _resolve_category_ids_from_labels(labels, taxonomy) if labels else []
             if ids:
-                # Reorder so display shows the first sub-category (e.g. Kleidung) before the root (e.g. Mountainbike)
-                reordered = labels
+                reordered_labels = labels
+                reordered_ids = ids
                 if len(labels) > 1 and len(labels) == len(ids):
-                    reordered = [labels[1], labels[0], *labels[2:]]
-                    ids = [ids[1], ids[0], *ids[2:]]
-                p["category"] = reordered
-                p["category_ids"] = ids
+                    root_label, root_id = labels[0], ids[0]
+                    branch_labels = labels[1:]
+                    branch_ids = ids[1:]
+                    primary_label = branch_labels[0]
+                    primary_id = branch_ids[0]
+                    tail_labels = branch_labels[1:]
+                    tail_ids = branch_ids[1:]
+
+                    reordered_labels = [primary_label]
+                    reordered_ids = [primary_id]
+                    if tail_labels:
+                        reordered_labels.extend(tail_labels)
+                        reordered_ids.extend(tail_ids)
+                    reordered_labels.append(root_label)
+                    reordered_ids.append(root_id)
+
+                p["category"] = reordered_labels
+                p["category_ids"] = reordered_ids
         enriched.append(Product(**p))
     return enriched
 
