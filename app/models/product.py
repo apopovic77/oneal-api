@@ -11,7 +11,10 @@ class Price(BaseModel):
 
 class MediaItem(BaseModel):
     id: str
-    role: Literal["hero", "detail", "lifestyle", "action", "studio"] = Field(..., description="Image role/purpose")
+    role: Literal["hero", "gallery", "detail", "lifestyle", "action", "studio", "variant"] = Field(
+        ...,
+        description="Image role/purpose",
+    )
     src: HttpUrl
     alt: Optional[str] = None
     caption: Optional[str] = Field(None, description="Image caption for catalog")
