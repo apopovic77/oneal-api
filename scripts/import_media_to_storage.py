@@ -265,10 +265,14 @@ def main() -> None:
     parser.add_argument("--dry-run", action="store_true", help="Do not upload or modify products.json")
     args = parser.parse_args()
 
-    products = load_products()
+    all_products = load_products()
+    total_count = len(all_products)
     if args.limit:
-        products = products[: args.limit]
-        log(f"ℹ️  Limiting to first {len(products)} products")
+        target_products = all_products[: args.limit]
+        log(f"ℹ️  Limiting to first {len(target_products)} of {total_count} products")
+    else:
+        target_products = all_products
+        log(f"ℹ️  Processing {total_count} products")
 
     headers = {
         "X-API-KEY": STORAGE_API_KEY,
@@ -284,7 +288,7 @@ def main() -> None:
         updated_count = 0
         total_media = 0
 
-        for idx, product in enumerate(products, 1):
+        for idx, product in enumerate(target_products, 1):
             name = product.get("name", product.get("id"))
             product_url = product.get("meta", {}).get("product_url", "")
             shopify_data = ensure_shopify_json(product_url, download_client)
@@ -313,7 +317,7 @@ def main() -> None:
                 log(f"ℹ️  No updates for {name}")
 
     if not args.dry_run:
-        save_products(products)
+        save_products(all_products)
         log(f"\n🎉 Completed import: {updated_count} products updated with {total_media} images.")
     else:
         log("\n💡 Dry run finished. No files or products.json were modified.")
