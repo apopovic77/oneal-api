@@ -1,0 +1,226 @@
+{
+  "version": "1.0",
+  "description": "Category and dimension media mappings for Product Finder",
+  "media": [
+    {
+      "id": "cat_helme",
+      "dimension": "category:presentation",
+      "dimensionValue": "Helme",
+      "mediaType": "image",
+      "storageId": 7238,
+      "role": "hero",
+      "title": "Helme",
+      "description": "Motocross & Downhill Helme - Full Face und Open Face",
+      "priority": 1
+    },
+    {
+      "id": "cat_brillen",
+      "dimension": "category:presentation",
+      "dimensionValue": "Brillen",
+      "mediaType": "image",
+      "storageId": 7239,
+      "role": "hero",
+      "title": "Brillen",
+      "description": "Motocross Goggles - B-10, B-22, B-33, B-55, Vault Serie",
+      "priority": 2
+    },
+    {
+      "id": "cat_kleidung",
+      "dimension": "category:presentation",
+      "dimensionValue": "Kleidung",
+      "mediaType": "image",
+      "storageId": 7240,
+      "role": "hero",
+      "title": "Kleidung",
+      "description": "Motocross Bekleidung - Jerseys, Hosen, Jacken, Handschuhe",
+      "priority": 3
+    },
+    {
+      "id": "cat_protektoren",
+      "dimension": "category:presentation",
+      "dimensionValue": "Protektoren",
+      "mediaType": "image",
+      "storageId": 7241,
+      "role": "hero",
+      "title": "Protektoren",
+      "description": "Protektoren - Oberkörper, Knie, Ellenbogen, Nackenschutz",
+      "priority": 4
+    },
+    {
+      "id": "cat_schuhe",
+      "dimension": "category:presentation",
+      "dimensionValue": "Schuhe & Stiefel",
+      "mediaType": "image",
+      "storageId": 7238,
+      "role": "hero",
+      "title": "Schuhe & Stiefel",
+      "description": "Motocross Schuhe & Stiefel",
+      "priority": 5
+    },
+    {
+      "id": "cat_accessoires",
+      "dimension": "category:presentation",
+      "dimensionValue": "Accessoires",
+      "mediaType": "image",
+      "storageId": 7239,
+      "role": "hero",
+      "title": "Accessoires",
+      "description": "Accessoires - Taschen, Socken, Lifestyle",
+      "priority": 6
+    },
+    {
+      "id": "fam_jerseys",
+      "dimension": "attribute:product_family",
+      "dimensionValue": "JERSEYS",
+      "mediaType": "image",
+      "storageId": 7240,
+      "role": "hero",
+      "title": "Jerseys",
+      "description": "Motocross Jerseys",
+      "priority": 1
+    },
+    {
+      "id": "fam_hosen",
+      "dimension": "attribute:product_family",
+      "dimensionValue": "HOSEN",
+      "mediaType": "image",
+      "storageId": 7241,
+      "role": "hero",
+      "title": "Hosen",
+      "description": "Motocross Hosen & Pants",
+      "priority": 2
+    },
+    {
+      "id": "fam_jacken",
+      "dimension": "attribute:product_family",
+      "dimensionValue": "JACKEN",
+      "mediaType": "image",
+      "storageId": 7238,
+      "role": "hero",
+      "title": "Jacken",
+      "description": "Motocross Jacken",
+      "priority": 3
+    },
+    {
+      "id": "fam_handschuhe",
+      "dimension": "attribute:product_family",
+      "dimensionValue": "HANDSCHUHE",
+      "mediaType": "image",
+      "storageId": 7239,
+      "role": "hero",
+      "title": "Handschuhe",
+      "description": "Motocross Handschuhe & Gloves",
+      "priority": 4
+    },
+    {
+      "id": "fam_fullface",
+      "dimension": "attribute:product_family",
+      "dimensionValue": "FULL FACE HELME",
+      "mediaType": "image",
+      "storageId": 7240,
+      "role": "hero",
+      "title": "Full Face Helme",
+      "description": "Integralhelme für maximalen Schutz",
+      "priority": 1
+    },
+    {
+      "id": "fam_openface",
+      "dimension": "attribute:product_family",
+      "dimensionValue": "OPEN FACE HELME",
+      "mediaType": "image",
+      "storageId": 7241,
+      "role": "hero",
+      "title": "Open Face Helme",
+      "description": "Motocross & BMX Helme",
+      "priority": 2
+    },
+    {
+      "id": "fam_chest",
+      "dimension": "attribute:product_family",
+      "dimensionValue": "OBERKÖRPER",
+      "mediaType": "image",
+      "storageId": 7238,
+      "role": "hero",
+      "title": "Oberkörper Protektoren",
+      "description": "Chest Protectors, Roost Guards, Body Armour",
+      "priority": 1
+    },
+    {
+      "id": "fam_knee",
+      "dimension": "attribute:product_family",
+      "dimensionValue": "KNIE",
+      "mediaType": "image",
+      "storageId": 7239,
+      "role": "hero",
+      "title": "Knie Protektoren",
+      "description": "Knieschoner & Schienbeinschoner",
+      "priority": 2
+    },
+    {
+      "id": "fam_elbow",
+      "dimension": "attribute:product_family",
+      "dimensionValue": "ELLENBOGEN",
+      "mediaType": "image",
+      "storageId": 7240,
+      "role": "hero",
+      "title": "Ellenbogen Protektoren",
+      "description": "Ellenbogenschoner für Motocross",
+      "priority": 3
+    },
+    {
+      "id": "fam_neck",
+      "dimension": "attribute:product_family",
+      "dimensionValue": "NACKENSCHUTZ",
+      "mediaType": "image",
+      "storageId": 7241,
+      "role": "hero",
+      "title": "Nackenschutz",
+      "description": "Neck Braces & Collar",
+      "priority": 4
+    },
+    {
+      "id": "fam_b10",
+      "dimension": "attribute:product_family",
+      "dimensionValue": "B-10",
+      "mediaType": "image",
+      "storageId": 7238,
+      "role": "hero",
+      "title": "B-10 Goggles",
+      "description": "B-10 Series Motocross Brillen",
+      "priority": 1
+    },
+    {
+      "id": "fam_b22",
+      "dimension": "attribute:product_family",
+      "dimensionValue": "B-22",
+      "mediaType": "image",
+      "storageId": 7239,
+      "role": "hero",
+      "title": "B-22 Goggles",
+      "description": "B-22 Series Motocross Brillen",
+      "priority": 2
+    },
+    {
+      "id": "fam_b33",
+      "dimension": "attribute:product_family",
+      "dimensionValue": "B-33",
+      "mediaType": "image",
+      "storageId": 7240,
+      "role": "hero",
+      "title": "B-33 Goggles",
+      "description": "B-33 Series Motocross Brillen",
+      "priority": 3
+    },
+    {
+      "id": "fam_vault",
+      "dimension": "attribute:product_family",
+      "dimensionValue": "VAULT",
+      "mediaType": "image",
+      "storageId": 7241,
+      "role": "hero",
+      "title": "Vault Goggles",
+      "description": "Vault Series Motocross Brillen",
+      "priority": 4
+    }
+  ]
+}
