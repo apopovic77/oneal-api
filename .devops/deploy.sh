@@ -13,10 +13,10 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-REPO_PATH="${REPO_PATH:-/Volumes/DatenAP/Code/storage-api}"
-DEPLOY_PATH="${DEPLOY_PATH:-/var/www/api-storage.arkturian.com}"
+REPO_PATH="${REPO_PATH:-/Volumes/DatenAP/Code/oneal-api}"
+DEPLOY_PATH="${DEPLOY_PATH:-/var/www/oneal-api}"
 BACKUP_DIR="${BACKUP_DIR:-/var/backups}"
-BACKUP_PREFIX="${BACKUP_PREFIX:-storage-api}"
+BACKUP_PREFIX="${BACKUP_PREFIX:-oneal-api}"
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 BACKUP_PATH="$BACKUP_DIR/${BACKUP_PREFIX}-${TIMESTAMP}"
 
@@ -30,10 +30,10 @@ git fetch origin main
 git reset --hard origin/main
 
 echo -e "${YELLOW}📦 Installing dependencies...${NC}"
-pip install -r requirements.txt
+npm ci --production=false
 
 echo -e "${YELLOW}🏗️  Building application...${NC}"
-echo 'No build needed for FastAPI'
+npm run build
 
 if [ ! -d "$REPO_PATH/dist" ]; then
   echo -e "${RED}❌ Build failed: dist directory not found${NC}"

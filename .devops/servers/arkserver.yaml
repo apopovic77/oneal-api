@@ -1,26 +1,31 @@
+# Storage API - arkserver Configuration
+# Internal test server behind firewall
+
 server:
   name: "arkserver"
   type: "python-api"
   host: "arkserver"
   user: "root"
-  deploy_path: "/var/www/oneal-api"
+  deploy_path: "/var/www/storage-api"
 
 service:
   type: "systemd"
-  name: "oneal-api"
-  port: 8002
+  name: "storage-api"
+  port: 8001
 
 nginx:
   enabled: true
-  server_name: "oneal-api.arkserver.arkturian.com"
+  server_name: "storage-api.arkserver.arkturian.com"
   port: 80
 
 environment:
-  STORAGE_API_URL: "http://localhost:8001"
-  STORAGE_API_KEY: "Inetpass1"
-  API_KEY: "oneal_demo_token"
+  DATABASE_URL: "sqlite:////var/www/storage-api/storage.db"
+  OPENAI_API_KEY: "${OPENAI_API_KEY}"
+  CHROMA_DB_PATH: "/var/www/storage-api/chroma_db"
+  CHROMA_COLLECTION_NAME: "tenant_knowledge"
   HOST: "0.0.0.0"
-  PORT: "8002"
+  PORT: "8001"
+  DEFAULT_TENANT_ID: "arkserver"
 
 python:
   version: "3.11"
@@ -30,4 +35,4 @@ python:
 backup:
   enabled: true
   dir: "/var/backups"
-  prefix: "oneal-api"
+  prefix: "storage-api"
